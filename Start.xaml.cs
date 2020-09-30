@@ -319,24 +319,37 @@ namespace FoxToSql
             dt.Columns.Add("CHARACTER_MAXIMUM_LENGTH_SQL");
             dt.Columns.Add("NUMERIC_PRECISION_SQL");
             dt.Columns.Add("NUMERIC_SCALE_SQL");
+            dt.Columns.Add("CAST", typeof(bool));
+            dt.Columns.Add("RTRIM", typeof(bool));
+
 
             foreach (DataRow item in dt1.Rows)
             {
-                string column = item["COLUMN_NAME"].ToString();
-                string type_fox = item["TYPE_FOX"].ToString();
-                string c_length_fox = item["CHARACTER_MAXIMUM_LENGTH"].ToString();
-                string n_pre_fox = item["NUMERIC_PRECISION"].ToString();
-                string n_scale_fox = item["NUMERIC_SCALE"].ToString();
+                string column = item["COLUMN_NAME"].ToString().Trim();
+                string type_fox = item["TYPE_FOX"].ToString().Trim();
+                string c_length_fox = item["CHARACTER_MAXIMUM_LENGTH"].ToString().Trim();
+                string n_pre_fox = item["NUMERIC_PRECISION"].ToString().Trim();
+                string n_scale_fox = item["NUMERIC_SCALE"].ToString().Trim();
+
 
                 DataRow[] row = dt2.Select("COLUMN_NAME='" + column + "'");
                 if (row.Length > 0)
                 {
-                    string type_sql = row[0]["TYPE_SQL"].ToString();
-                    string c_length_sql = row[0]["CHARACTER_MAXIMUM_LENGTH_SQL"].ToString();
-                    string n_pre_sql = row[0]["NUMERIC_PRECISION_SQL"].ToString();
-                    string n_scale_sql = row[0]["NUMERIC_SCALE_SQL"].ToString();
+                    string type_sql = row[0]["TYPE_SQL"].ToString().Trim();
+                    string c_length_sql = row[0]["CHARACTER_MAXIMUM_LENGTH_SQL"].ToString().Trim();
+                    string n_pre_sql = row[0]["NUMERIC_PRECISION_SQL"].ToString().Trim();
+                    string n_scale_sql = row[0]["NUMERIC_SCALE_SQL"].ToString().Trim();
 
-                    dt.Rows.Add(false, column, type_fox, c_length_fox, n_pre_fox, n_scale_fox, type_sql, c_length_sql, n_pre_sql, n_scale_sql);
+
+                    bool trim = false;
+                    switch (type_sql.ToLower())
+                    {
+                        case "char": trim = true; break;
+                        case "varchar": trim = true; break;
+                    }
+
+
+                    dt.Rows.Add(false, column, type_fox, c_length_fox, n_pre_fox, n_scale_fox, type_sql, c_length_sql, n_pre_sql, n_scale_sql, false, trim);
                 }
             }
 
@@ -406,6 +419,29 @@ namespace FoxToSql
 
         }
 
+        public DataTable SelectDBFDT(string sql, string root)
+        {
+
+            try
+            {
+                var f = new DataTable();
+                string strCon = @"Provider=VFPOLEDB.1;Data Source=" + root + ";Collating Sequence=MACHINE;Connection Timeout=20;Exclusive=NO;DELETED=True;EXACT=False";
+                OleDbDataReader t;
+                OleDbConnection oleDbConnection = new OleDbConnection(strCon);
+                oleDbConnection.Open();
+                t = new OleDbCommand(sql, oleDbConnection).ExecuteReader();
+                f.Load(t);
+                return f;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("X:" + ex.Message);
+                return null;
+            }
+
+        }
+
+
         private async void BtnPassData_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -441,18 +477,57 @@ namespace FoxToSql
                     string table_sql = CbTableSql.SelectedValue.ToString();
                     string connsql = TxPathSqlServer.Text;
 
-                    List<string> list_col = new List<string>();
+                    List<ListColumn> list_col = new List<ListColumn>();
 
                     foreach (DataRow item in dt_compare.Rows)
                     {
                         bool flag = Convert.ToBoolean(item["CHECK"]);
-                        if (flag) list_col.Add(item["COLUMN_NAME"].ToString());
+                        bool cast = Convert.ToBoolean(item["CAST"]);
+                        bool rtrim = Convert.ToBoolean(item["RTRIM"]);
+
+                        if (flag)
+                        {
+                            ListColumn lc = new ListColumn();
+                            lc.column = item["COLUMN_NAME"].ToString().Trim();
+
+
+                            if (cast && !rtrim)
+                            {
+                                string clm = item["COLUMN_NAME"].ToString().Trim();
+                                string tipo = item["TYPE_SQL"].ToString().Trim();
+                                string np = item["NUMERIC_PRECISION_SQL"].ToString().Trim();
+                                string ns = item["NUMERIC_SCALE_SQL"].ToString().Trim();
+                                string cast_column = "cast(" + clm + " as " + tipo + "(" + np + "," + ns + ")) as " + clm;
+                                lc.column_convert = cast_column.Trim();
+                                list_col.Add(lc);
+                            }
+
+                            if (!cast && rtrim)
+                            {
+                                string clm = item["COLUMN_NAME"].ToString().Trim();
+                                string tipo = item["TYPE_SQL"].ToString().Trim().ToLower();
+                                bool iftext = tipo == "char" || tipo == "varchar" ? true : false;
+                                string cast_column = iftext ? "RTRIM(" + clm + ") as " + clm + "" : clm;
+
+                                lc.column_convert = cast_column.Trim();
+                                list_col.Add(lc);
+                            }
+
+
+                            if (!cast && !rtrim)
+                            {
+                                string clm = item["COLUMN_NAME"].ToString().Trim();
+                                lc.column_convert = clm;
+                                list_col.Add(lc);
+                            }
+
+                        };
                     };
 
 
-                    string cab_colm_parm = String.Join(",", list_col.ToArray());
+                    string cab_colm_parm = String.Join(",", list_col.Select(x => x.column_convert).ToArray());
                     string query = "select  " + cab_colm_parm + " from " + table_fox + " ";
-
+                   
                     string root = TxPathFoxPro.Text;
 
                     GridMain.IsEnabled = false;
@@ -461,16 +536,20 @@ namespace FoxToSql
 
                     CancellationTokenSource source = new CancellationTokenSource();
                     var slowTask = Task<OleDbDataReader>.Factory.StartNew(() => SelectDBFDR(query, root), source.Token);
-                    await slowTask;
+                    //var slowTask = Task<DataTable>.Factory.StartNew(() => SelectDBFDT(query, root), source.Token);
+                    //GRidPrueba.ItemsSource = data.DefaultView;
 
+                    await slowTask;
                     if (slowTask.IsCompleted)
                     {
+
                         OleDbDataReader data = ((OleDbDataReader)slowTask.Result);
+                        
                         using (System.Data.SqlClient.SqlBulkCopy bc = new System.Data.SqlClient.SqlBulkCopy(connsql))
                         {
                             bc.BulkCopyTimeout = 0;
                             bc.DestinationTableName = table_sql;
-                            foreach (var item in list_col) bc.ColumnMappings.Add(item, item);
+                            foreach (var item in list_col) bc.ColumnMappings.Add(item.column.Trim(), item.column.Trim());
                             var t = bc.WriteToServerAsync(data);
                             await t;
                             if (t.IsCompleted)
@@ -562,4 +641,14 @@ namespace FoxToSql
 
 
     }
+
+    public class ListColumn
+    {
+        public string column { get; set; }
+        public string column_convert { get; set; }
+
+    }
+
+
+
 }

@@ -11,10 +11,10 @@
         <ResourceDictionary>
             <Style TargetType="GroupBox"/>
             <Style TargetType="DataGridColumnHeader">
-                    <Setter Property="FontSize" Value="11"/>
-                    <Setter Property="FontWeight" Value="Bold"/>
-                </Style>
-                <ResourceDictionary.MergedDictionaries>
+                <Setter Property="FontSize" Value="11"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.Red.xaml"/>
@@ -27,7 +27,7 @@
             <ProgressBar x:Name="BusyIndicator" Style="{StaticResource MaterialDesignCircularProgressBar}"  IsIndeterminate="False" Height="50" Width="50"/>
             <TextBlock Name="TxLoad" Text="Load........." Foreground="OrangeRed" Visibility="Hidden"/>
         </StackPanel>
-        
+
         <Grid Name="GridMain" Panel.ZIndex="1" IsEnabled="True">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -152,10 +152,12 @@
                             <DataGridTextColumn Width="100"  Header="C LENGTH SQL" Binding="{Binding CHARACTER_MAXIMUM_LENGTH_SQL}" IsReadOnly="True"/>
                             <DataGridTextColumn Width="100"  Header="N PREC SQL" Binding="{Binding NUMERIC_PRECISION_SQL}" IsReadOnly="True"/>
                             <DataGridTextColumn Width="100"  Header="N SCALE SQL" Binding="{Binding NUMERIC_SCALE_SQL}" IsReadOnly="True"/>
+                            <DataGridCheckBoxColumn Width="100"  Header="CAST()" Binding="{Binding CAST}" IsReadOnly="False"/>
+                            <DataGridCheckBoxColumn Width="100"  Header="RTRIM()" Binding="{Binding RTRIM}" IsReadOnly="False"/>
                         </DataGrid.Columns>
                     </DataGrid>
-
-                    <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
+                                    
+                    <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
                         <Button Name="BtnOPenCommand"  Content="Open Command" FontSize="12" Margin="5,2,5,2" ToolTip="Open Command SQL SERVER"  Click="BtnOPenCommand_Click" />
                         <Button Name="BtnAlterCol"  Content="Alter Column" FontSize="12" Margin="5,2,5,2" ToolTip="Alter column Fox to SQL server"  Click="BtnAlterCol_Click" />
                         <Button Name="BtnCompare" Content="Compare Tables" FontSize="12" Margin="5,2,5,2" ToolTip="Compare Table FOX PRO and SQL SERVER"  Click="BtnCompare_Click" />
@@ -166,6 +168,6 @@
         </Grid>
 
     </Grid>
-    
+
 
 </Window>

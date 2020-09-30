@@ -21,3 +21,26 @@ C:\Users\aleja\Desktop\SQL FOX\FOX TO SQL\FoxToSql\bin\Debug\MaterialDesignTheme
 C:\Users\aleja\Desktop\SQL FOX\FOX TO SQL\FoxToSql\obj\Debug\FoxToSql.csproj.CopyComplete
 C:\Users\aleja\Desktop\SQL FOX\FOX TO SQL\FoxToSql\obj\Debug\Command.g.cs
 C:\Users\aleja\Desktop\SQL FOX\FOX TO SQL\FoxToSql\obj\Debug\Command.baml
+C:\Users\aleja\OneDrive\Escritorio\x\bin\Debug\FoxToSql.exe.config
+C:\Users\aleja\OneDrive\Escritorio\x\bin\Debug\FoxToSql.exe
+C:\Users\aleja\OneDrive\Escritorio\x\bin\Debug\FoxToSql.pdb
+C:\Users\aleja\OneDrive\Escritorio\x\bin\Debug\MaterialDesignColors.dll
+C:\Users\aleja\OneDrive\Escritorio\x\bin\Debug\MaterialDesignThemes.Wpf.dll
+C:\Users\aleja\OneDrive\Escritorio\x\bin\Debug\MaterialDesignColors.pdb
+C:\Users\aleja\OneDrive\Escritorio\x\bin\Debug\MaterialDesignThemes.Wpf.pdb
+C:\Users\aleja\OneDrive\Escritorio\x\bin\Debug\MaterialDesignThemes.Wpf.xml
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\FoxToSql.csprojAssemblyReference.cache
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\Command.g.cs
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\Start.g.cs
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\App.g.cs
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\FoxToSql_MarkupCompile.cache
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\FoxToSql_MarkupCompile.lref
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\Command.baml
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\Start.baml
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\FoxToSql.g.resources
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\FoxToSql.Properties.Resources.resources
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\FoxToSql.csproj.GenerateResource.cache
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\FoxToSql.csproj.CoreCompileInputs.cache
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\FoxToSql.csproj.CopyComplete
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\FoxToSql.exe
+C:\Users\aleja\OneDrive\Escritorio\x\obj\Debug\FoxToSql.pdb
