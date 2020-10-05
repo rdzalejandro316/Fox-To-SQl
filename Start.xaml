@@ -66,7 +66,7 @@
                             <TextBlock Text="PATH FOX PRO :" FontWeight="Bold" VerticalAlignment="Center"/>
                             <TextBlock Name="TxOkFox" Text="---" FontWeight="Bold" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <TextBox Name="TxPathFoxPro" Margin="5" ToolTip="EXAMPLE PATH: D:\\CopiasVFP\EMP01003092020\\EMP010\\CO.SIA\\" Text="C:\\Users\\aleja\\Desktop\\Business\\SDA\\Viejito\\Marzo240420\\Marzo240420\\empresas\\EMP010\\CO.SIA"/>
+                        <TextBox Name="TxPathFoxPro" Margin="5" ToolTip="EXAMPLE PATH: D:\\CopiasVFP\EMP01003092020\\EMP010\\CO.SIA\\" />
                         <Button Name="BtnConnFox" Content="Test connection Fox Pro" Click="BtnConnFox_Click" Width="220" HorizontalAlignment="Left" Margin="5,0,0,0"/>
                     </StackPanel>
 
@@ -127,7 +127,7 @@
                             <TextBlock Text="PATH SQL SERVER :" FontWeight="Bold" VerticalAlignment="Center"/>
                             <TextBlock Name="TxOkSQL" Text="---" FontWeight="Bold" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <TextBox Name="TxPathSqlServer"  Margin="5" ToolTip="EXAMPLE PATH: Data Source = xxx.xxx.xxx.xx; Initial Catalog = xxxx; User ID=xxxxx; Password=xxxxx;Connect Timeout=30000" Text="Data Source = 64.250.116.210,8334; Initial Catalog = Noga_Emp010; User ID=sa; Password=Q1w2e3r4*/*"/>
+                        <TextBox Name="TxPathSqlServer"  Margin="5" ToolTip="EXAMPLE PATH: Data Source = xxx.xxx.xxx.xx; Initial Catalog = xxxx; User ID=xxxxx; Password=xxxxx;Connect Timeout=30000"/>
                         <Button Name="BtnConnSql" Content="Test connection SQL SERVER" Click="BtnConnSql_Click" Width="220" HorizontalAlignment="Left" Margin="5,0,0,0"/>
                     </StackPanel>
 
