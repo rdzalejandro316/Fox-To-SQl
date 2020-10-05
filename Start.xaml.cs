@@ -184,6 +184,7 @@ namespace FoxToSql
 
                     dt_colfox.Clear(); dt_colfox = dt1;
                     GridFoxPro.ItemsSource = dt1.Rows.Count > 0 ? dt1.DefaultView : null;
+                    TxTotalFox.Text = dt_colfox.Rows.Count.ToString();
                     con.Close();
                 }
                 else
@@ -245,6 +246,7 @@ namespace FoxToSql
                     da.Fill(dt);
                     dt_colsql.Clear(); dt_colsql = dt;
                     GridSqlServer.ItemsSource = dt.Rows.Count > 0 ? dt.DefaultView : null;
+                    TxTotalSql.Text = dt_colsql.Rows.Count.ToString();
                     conn.Close();
                     da.Dispose();
                 }
@@ -315,6 +317,7 @@ namespace FoxToSql
             dt.Columns.Add("CHARACTER_MAXIMUM_LENGTH");
             dt.Columns.Add("NUMERIC_PRECISION");
             dt.Columns.Add("NUMERIC_SCALE");
+            dt.Columns.Add("COLUMN_NAME_SQL");
             dt.Columns.Add("TYPE_SQL");
             dt.Columns.Add("CHARACTER_MAXIMUM_LENGTH_SQL");
             dt.Columns.Add("NUMERIC_PRECISION_SQL");
@@ -335,6 +338,7 @@ namespace FoxToSql
                 DataRow[] row = dt2.Select("COLUMN_NAME='" + column + "'");
                 if (row.Length > 0)
                 {
+                    string column_sql = row[0]["COLUMN_NAME"].ToString().Trim();
                     string type_sql = row[0]["TYPE_SQL"].ToString().Trim();
                     string c_length_sql = row[0]["CHARACTER_MAXIMUM_LENGTH_SQL"].ToString().Trim();
                     string n_pre_sql = row[0]["NUMERIC_PRECISION_SQL"].ToString().Trim();
@@ -348,8 +352,7 @@ namespace FoxToSql
                         case "varchar": trim = true; break;
                     }
 
-
-                    dt.Rows.Add(false, column, type_fox, c_length_fox, n_pre_fox, n_scale_fox, type_sql, c_length_sql, n_pre_sql, n_scale_sql, false, trim);
+                    dt.Rows.Add(false, column, type_fox, c_length_fox, n_pre_fox, n_scale_fox, column_sql, type_sql, c_length_sql, n_pre_sql, n_scale_sql, false, trim);
                 }
             }
 
@@ -391,6 +394,7 @@ namespace FoxToSql
                 dt_compare.Clear();
                 dt_compare = getLinq(dt_colfox, dt_colsql);
                 GridCompare.ItemsSource = dt_compare.DefaultView;
+                TxTotalCompare.Text = dt_compare.Rows.Count.ToString();
 
             }
             catch (Exception)
@@ -456,9 +460,20 @@ namespace FoxToSql
                 }
 
                 bool ischeck = false;
+                List<string> stringc = new List<string>();
                 foreach (DataRow item in dt_compare.Rows)
                 {
-                    if (Convert.ToBoolean(item["CHECK"])) ischeck = true;
+                    if (Convert.ToBoolean(item["CHECK"]))
+                    {
+                        ischeck = true;
+                        string colm_fox = item["COLUMN_NAME"].ToString();
+                        string colm_sql = item["COLUMN_NAME_SQL"].ToString();
+
+                        if (!String.Equals(colm_fox, colm_sql))
+                        {
+                            stringc.Add(colm_fox + "-" + colm_sql);
+                        }
+                    }
                 };
 
                 if (!ischeck)
@@ -467,6 +482,15 @@ namespace FoxToSql
                     return;
                 }
 
+                if (stringc.Count > 0)
+                {
+                    string concat = "selected columns do not match uppercase and lowercase " + Environment.NewLine;
+                    foreach (var item in stringc)
+                        concat += item + Environment.NewLine;
+
+                    MessageBox.Show(concat, "alert", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
 
                 #endregion
 
@@ -527,7 +551,7 @@ namespace FoxToSql
 
                     string cab_colm_parm = String.Join(",", list_col.Select(x => x.column_convert).ToArray());
                     string query = "select  " + cab_colm_parm + " from " + table_fox + " ";
-                   
+
                     string root = TxPathFoxPro.Text;
 
                     GridMain.IsEnabled = false;
@@ -544,7 +568,7 @@ namespace FoxToSql
                     {
 
                         OleDbDataReader data = ((OleDbDataReader)slowTask.Result);
-                        
+
                         using (System.Data.SqlClient.SqlBulkCopy bc = new System.Data.SqlClient.SqlBulkCopy(connsql))
                         {
                             bc.BulkCopyTimeout = 0;
@@ -633,11 +657,96 @@ namespace FoxToSql
             }
         }
 
+        private void BtnCreateTableFoxSql_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (CbTableFox.SelectedIndex > 0)
+                {
+                    if (dt_colfox.Rows.Count <= 0)
+                    {
+                        MessageBox.Show("Load columns of table FOX PRO", "alert", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
+
+                    string table = CbTableFox.SelectedValue.ToString();
+
+                    StringBuilder table_query = new StringBuilder();
+                    table_query.Append("CREATE TABLE " + table + " ( " + Environment.NewLine);
+
+                    int i = 1;
+                    foreach (DataRow item in dt_colfox.Rows)
+                    {
+                        string column = item["COLUMN_NAME"].ToString().Trim();
+                        OleDbType Type = (OleDbType)item["DATA_TYPE"];
+                        string c_length = item["CHARACTER_MAXIMUM_LENGTH"].ToString();
+                        string n_precision = item["NUMERIC_PRECISION"].ToString();
+                        string n_scale = item["NUMERIC_SCALE"].ToString();
+
+                        string columnType = "";
+                        string value = string.IsNullOrEmpty(c_length) ? n_precision + "," + n_scale : c_length;
+
+
+                        switch (Type)
+                        {
+                            case OleDbType.Date:
+                                columnType = "DATETIME";
+                                value = "";
+                                break;
+                            case OleDbType.DBDate:
+                                columnType = "DATETIME";
+                                value = "";
+                                break;
+                            case OleDbType.Decimal:
+                                columnType = item["TYPE_FOX"].ToString();
+                                value = string.IsNullOrEmpty(c_length) ? "(" + n_precision + "," + n_scale + ")" : "(" + c_length + ")";
+                                break;
+                            case OleDbType.Double:
+                                columnType = item["TYPE_FOX"].ToString();
+                                value = string.IsNullOrEmpty(c_length) ? "(" + n_precision + "," + n_scale + ")" : "(" + c_length + ")";
+                                break;
+                            case OleDbType.Numeric:
+                                columnType = item["TYPE_FOX"].ToString();
+                                value = string.IsNullOrEmpty(c_length) ? "(" + n_precision + "," + n_scale + ")" : "(" + c_length + ")";
+                                break;
+                            case OleDbType.VarChar:
+                                columnType = item["TYPE_FOX"].ToString();
+                                value = string.IsNullOrEmpty(c_length) ? "(" + n_precision + "," + n_scale + ")" : "(" + c_length + ")";
+                                break;
+                            case OleDbType.Char:
+                                columnType = item["TYPE_FOX"].ToString();
+                                value = string.IsNullOrEmpty(c_length) ? "(" + n_precision + "," + n_scale + ")" : "(" + c_length + ")";
+                                break;
+                        }
 
 
 
+                        string coma = i == dt_colfox.Rows.Count ? "" : ",";
+                        table_query.Append(column + " " + columnType + value + coma + Environment.NewLine);
+                        i++;
+                    }
+                    //table_query.Remove(table_query.Length - 1, -1);
+                    table_query.Append(");");
 
+                    Command ww = new Command();
+                    ww.ShowInTaskbar = false;
+                    ww.conn_sql = TxPathSqlServer.Text;
+                    ww.query = table_query.ToString();
+                    ww.Owner = Application.Current.MainWindow;
+                    ww.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    ww.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("select a fox pro board", "alert", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
 
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("error open comman", "alert", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
 
     }

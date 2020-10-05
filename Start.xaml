@@ -14,6 +14,21 @@
                 <Setter Property="FontSize" Value="11"/>
                 <Setter Property="FontWeight" Value="Bold"/>
             </Style>
+            <Style TargetType="TextBlock" x:Key="TxTitTot">
+                <Setter Property="FontWeight" Value="Bold"/>
+                <Setter Property="FontSize" Value="10"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Margin" Value="5,0,0,0"/>
+            </Style>
+            <Style TargetType="TextBlock" x:Key="TxValTot">
+                <Setter Property="FontSize" Value="10"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="Text" Value="0"/>
+            </Style>
+            <Style TargetType="StackPanel" x:Key="PanelTot">
+                <Setter Property="Background" Value="WhiteSmoke"/>
+                <Setter Property="Orientation" Value="Horizontal"/>
+            </Style> 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
@@ -51,14 +66,15 @@
                             <TextBlock Text="PATH FOX PRO :" FontWeight="Bold" VerticalAlignment="Center"/>
                             <TextBlock Name="TxOkFox" Text="---" FontWeight="Bold" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <TextBox Name="TxPathFoxPro" Margin="5" ToolTip="EXAMPLE PATH: D:\\CopiasVFP\EMP01003092020\\EMP010\\CO.SIA\\"/>
-                        <Button Name="BtnConnFox" Content="Test connection Fox Pro" Click="BtnConnFox_Click" Width="220" />
+                        <TextBox Name="TxPathFoxPro" Margin="5" ToolTip="EXAMPLE PATH: D:\\CopiasVFP\EMP01003092020\\EMP010\\CO.SIA\\" Text="C:\\Users\\aleja\\Desktop\\Business\\SDA\\Viejito\\Marzo240420\\Marzo240420\\empresas\\EMP010\\CO.SIA"/>
+                        <Button Name="BtnConnFox" Content="Test connection Fox Pro" Click="BtnConnFox_Click" Width="220" HorizontalAlignment="Left" Margin="5,0,0,0"/>
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBlock Text="TABLE :" Margin="5,0,0,5" FontWeight="Bold" VerticalAlignment="Center"/>
                         <ComboBox Name="CbTableFox" Width="200" Margin="5,0,5,0"/>
-                        <Button Name="BtnLoadFox" Content="Load" Width="80" Click="BtnLoadFox_Click" />
+                        <Button Name="BtnLoadFox" Content="Load" Width="80" Click="BtnLoadFox_Click" FontSize="12"/>
+                        <Button Name="BtnCreateTableFoxSql" Content="Create Table Fox-SQl" ToolTip="Load Columns FOXPRO" Width="150" FontSize="12" Margin="5" Click="BtnCreateTableFoxSql_Click"/>
                     </StackPanel>
 
                     <Grid Grid.Row="2">
@@ -67,15 +83,28 @@
                             <ColumnDefinition Width="140"/>
                         </Grid.ColumnDefinitions>
 
-                        <DataGrid Name="GridFoxPro" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Width="110" Header="COLUMN" Binding="{Binding COLUMN_NAME}" IsReadOnly="True"/>
-                                <DataGridTextColumn Width="100"  Header="DATA TYPE" Binding="{Binding TYPE_FOX}" IsReadOnly="True"/>
-                                <DataGridTextColumn Width="100"  Header="CHAR LENGTH" Binding="{Binding CHARACTER_MAXIMUM_LENGTH}" IsReadOnly="True"/>
-                                <DataGridTextColumn Width="100"  Header="N PRECISION" Binding="{Binding NUMERIC_PRECISION}" IsReadOnly="True"/>
-                                <DataGridTextColumn Width="100"  Header="N SCALE" Binding="{Binding NUMERIC_SCALE}" IsReadOnly="True"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+
+                            <DataGrid Name="GridFoxPro" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="110" Header="COLUMN" Binding="{Binding COLUMN_NAME}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Width="100"  Header="DATA TYPE" Binding="{Binding TYPE_FOX}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Width="100"  Header="CHAR LENGTH" Binding="{Binding CHARACTER_MAXIMUM_LENGTH}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Width="100"  Header="N PRECISION" Binding="{Binding NUMERIC_PRECISION}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Width="100"  Header="N SCALE" Binding="{Binding NUMERIC_SCALE}" IsReadOnly="True"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="1" Style="{StaticResource PanelTot}">
+                                <TextBlock Text="Total: " Style="{StaticResource TxTitTot}"/>
+                                <TextBlock Name="TxTotalFox" Text="0" Style="{StaticResource TxValTot}"/>
+                            </StackPanel>
+                        </Grid>
+
 
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
@@ -98,14 +127,14 @@
                             <TextBlock Text="PATH SQL SERVER :" FontWeight="Bold" VerticalAlignment="Center"/>
                             <TextBlock Name="TxOkSQL" Text="---" FontWeight="Bold" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <TextBox Name="TxPathSqlServer"  Margin="5" ToolTip="EXAMPLE PATH: Data Source = xxx.xxx.xxx.xx; Initial Catalog = xxxx; User ID=xxxxx; Password=xxxxx;Connect Timeout=30000"/>
-                        <Button Name="BtnConnSql" Content="Test connection SQL SERVER" Click="BtnConnSql_Click" Width="220" />
+                        <TextBox Name="TxPathSqlServer"  Margin="5" ToolTip="EXAMPLE PATH: Data Source = xxx.xxx.xxx.xx; Initial Catalog = xxxx; User ID=xxxxx; Password=xxxxx;Connect Timeout=30000" Text="Data Source = 64.250.116.210,8334; Initial Catalog = Noga_Emp010; User ID=sa; Password=Q1w2e3r4*/*"/>
+                        <Button Name="BtnConnSql" Content="Test connection SQL SERVER" Click="BtnConnSql_Click" Width="220" HorizontalAlignment="Left" Margin="5,0,0,0"/>
                     </StackPanel>
 
                     <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
                         <TextBlock Text="TABLE :" Margin="5,0,0,5" FontWeight="Bold" VerticalAlignment="Center"/>
                         <ComboBox Name="CbTableSql" Width="200" Margin="5,0,5,0"/>
-                        <Button Name="BtnLoadSql" Content="Load" ToolTip="Load Tables" Width="80" Margin="5,0,5,0" Click="BtnLoadSql_Click" />
+                        <Button Name="BtnLoadSql" Content="Load" ToolTip="Load Tables" Width="80" Margin="5,0,5,0" FontSize="12" Click="BtnLoadSql_Click" />
                     </StackPanel>
 
                     <Grid Grid.Row="2">
@@ -113,15 +142,29 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="140"/>
                         </Grid.ColumnDefinitions>
-                        <DataGrid Name="GridSqlServer" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Width="110" Header="COLUMN" Binding="{Binding COLUMN_NAME}" IsReadOnly="True"/>
-                                <DataGridTextColumn Width="100"  Header="DATA TYPE" Binding="{Binding TYPE_SQL}" IsReadOnly="True"/>
-                                <DataGridTextColumn Width="100"  Header="CHAR LENGTH" Binding="{Binding CHARACTER_MAXIMUM_LENGTH_SQL}" IsReadOnly="True"/>
-                                <DataGridTextColumn Width="100"  Header="N PRECISION" Binding="{Binding NUMERIC_PRECISION_SQL}" IsReadOnly="True"/>
-                                <DataGridTextColumn Width="100"  Header="N SCALE" Binding="{Binding NUMERIC_SCALE_SQL}" IsReadOnly="True"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+
+                            <DataGrid Name="GridSqlServer" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Width="110" Header="COLUMN" Binding="{Binding COLUMN_NAME}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Width="100"  Header="DATA TYPE" Binding="{Binding TYPE_SQL}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Width="100"  Header="CHAR LENGTH" Binding="{Binding CHARACTER_MAXIMUM_LENGTH_SQL}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Width="100"  Header="N PRECISION" Binding="{Binding NUMERIC_PRECISION_SQL}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Width="100"  Header="N SCALE" Binding="{Binding NUMERIC_SCALE_SQL}" IsReadOnly="True"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <StackPanel Grid.Row="1" Style="{StaticResource PanelTot}">
+                                <TextBlock Text="Total: " Style="{StaticResource TxTitTot}"/>
+                                <TextBlock Name="TxTotalSql" Text="0" Style="{StaticResource TxValTot}"/>
+                            </StackPanel>
+                        </Grid> 
+                       
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <Button Name="BtnLoadSqlColumn" Content="Load Columns" ToolTip="Load Columns SQL SERVER" Width="130" Margin="5" Click="BtnLoadSqlColumn_Click" />
@@ -140,23 +183,37 @@
                         <ColumnDefinition Width="140"/>
                     </Grid.ColumnDefinitions>
 
-                    <DataGrid Name="GridCompare" Margin="5" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
-                        <DataGrid.Columns>
-                            <DataGridCheckBoxColumn Width="70" Header="CHECK" Binding="{Binding CHECK}" IsReadOnly="False"/>
-                            <DataGridTextColumn Width="110" Header="COLUMN" Binding="{Binding COLUMN_NAME}" IsReadOnly="True"/>
-                            <DataGridTextColumn Width="100" Header="TYPE FOX" Binding="{Binding TYPE_FOX}" IsReadOnly="True"/>
-                            <DataGridTextColumn Width="100"  Header="C LENGTH FOX" Binding="{Binding CHARACTER_MAXIMUM_LENGTH}" IsReadOnly="True"/>
-                            <DataGridTextColumn Width="100"  Header="N PREC FOX" Binding="{Binding NUMERIC_PRECISION}" IsReadOnly="True"/>
-                            <DataGridTextColumn Width="100"  Header="N SCALE FOX" Binding="{Binding NUMERIC_SCALE}" IsReadOnly="True"/>
-                            <DataGridTextColumn Width="100" Header="TYPE SQL" Binding="{Binding TYPE_SQL}" IsReadOnly="True"/>
-                            <DataGridTextColumn Width="100"  Header="C LENGTH SQL" Binding="{Binding CHARACTER_MAXIMUM_LENGTH_SQL}" IsReadOnly="True"/>
-                            <DataGridTextColumn Width="100"  Header="N PREC SQL" Binding="{Binding NUMERIC_PRECISION_SQL}" IsReadOnly="True"/>
-                            <DataGridTextColumn Width="100"  Header="N SCALE SQL" Binding="{Binding NUMERIC_SCALE_SQL}" IsReadOnly="True"/>
-                            <DataGridCheckBoxColumn Width="100"  Header="CAST()" Binding="{Binding CAST}" IsReadOnly="False"/>
-                            <DataGridCheckBoxColumn Width="100"  Header="RTRIM()" Binding="{Binding RTRIM}" IsReadOnly="False"/>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                                    
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+                        
+                        <DataGrid Name="GridCompare" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+                            <DataGrid.Columns>
+                                <DataGridCheckBoxColumn Width="60" Header="CHECK" Binding="{Binding CHECK}" IsReadOnly="False"/>
+                                <DataGridTextColumn Width="90" Header="COLUMN FOX" Binding="{Binding COLUMN_NAME}" IsReadOnly="True"/>
+                                <DataGridTextColumn Width="90" Header="TYPE FOX" Binding="{Binding TYPE_FOX}" IsReadOnly="True"/>
+                                <DataGridTextColumn Width="90" Header="C LENGTH FOX" Binding="{Binding CHARACTER_MAXIMUM_LENGTH}" IsReadOnly="True"/>
+                                <DataGridTextColumn Width="90" Header="N PREC FOX" Binding="{Binding NUMERIC_PRECISION}" IsReadOnly="True"/>
+                                <DataGridTextColumn Width="90" Header="N SCALE FOX" Binding="{Binding NUMERIC_SCALE}" IsReadOnly="True"/>
+                                <DataGridTextColumn Width="90" Header="COLUMN SQL" Binding="{Binding COLUMN_NAME_SQL}" IsReadOnly="True"/>
+                                <DataGridTextColumn Width="90" Header="TYPE SQL" Binding="{Binding TYPE_SQL}" IsReadOnly="True"/>
+                                <DataGridTextColumn Width="90" Header="C LENGTH SQL" Binding="{Binding CHARACTER_MAXIMUM_LENGTH_SQL}" IsReadOnly="True"/>
+                                <DataGridTextColumn Width="90" Header="N PREC SQL" Binding="{Binding NUMERIC_PRECISION_SQL}" IsReadOnly="True"/>
+                                <DataGridTextColumn Width="90" Header="N SCALE SQL" Binding="{Binding NUMERIC_SCALE_SQL}" IsReadOnly="True"/>
+                                <DataGridCheckBoxColumn Width="80"  Header="CAST()" Binding="{Binding CAST}" IsReadOnly="False"/>
+                                <DataGridCheckBoxColumn Width="80"  Header="RTRIM()" Binding="{Binding RTRIM}" IsReadOnly="False"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <StackPanel Grid.Row="1" Style="{StaticResource PanelTot}">
+                            <TextBlock Text="Total: " Style="{StaticResource TxTitTot}"/>
+                            <TextBlock Name="TxTotalCompare" Text="0" Style="{StaticResource TxValTot}"/>
+                        </StackPanel>
+                    </Grid>
+                   
+
                     <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
                         <Button Name="BtnOPenCommand"  Content="Open Command" FontSize="12" Margin="5,2,5,2" ToolTip="Open Command SQL SERVER"  Click="BtnOPenCommand_Click" />
                         <Button Name="BtnAlterCol"  Content="Alter Column" FontSize="12" Margin="5,2,5,2" ToolTip="Alter column Fox to SQL server"  Click="BtnAlterCol_Click" />
