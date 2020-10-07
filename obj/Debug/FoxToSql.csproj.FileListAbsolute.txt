@@ -90,3 +90,5 @@ C:\Users\aleja\Desktop\f\obj\Debug\FoxToSql.csproj.CoreCompileInputs.cache
 C:\Users\aleja\Desktop\f\obj\Debug\FoxToSql.csproj.CopyComplete
 C:\Users\aleja\Desktop\f\obj\Debug\FoxToSql.exe
 C:\Users\aleja\Desktop\f\obj\Debug\FoxToSql.pdb
+C:\Users\aleja\Desktop\F\obj\Debug\ColumnDifferences.g.cs
+C:\Users\aleja\Desktop\F\obj\Debug\ColumnDifferences.baml

@@ -66,7 +66,7 @@
                             <TextBlock Text="PATH FOX PRO :" FontWeight="Bold" VerticalAlignment="Center"/>
                             <TextBlock Name="TxOkFox" Text="---" FontWeight="Bold" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <TextBox Name="TxPathFoxPro" Margin="5" ToolTip="EXAMPLE PATH: D:\\CopiasVFP\EMP01003092020\\EMP010\\CO.SIA\\" />
+                        <TextBox Name="TxPathFoxPro" Margin="5" ToolTip="EXAMPLE PATH: D:\\CopiasVFP\EMP01003092020\\EMP010\\CO.SIA\\"/>
                         <Button Name="BtnConnFox" Content="Test connection Fox Pro" Click="BtnConnFox_Click" Width="220" HorizontalAlignment="Left" Margin="5,0,0,0"/>
                     </StackPanel>
 
@@ -108,7 +108,8 @@
 
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <Button Name="BtnLoadFoxColumn" Content="Load Columns" ToolTip="Load Columns FOXPRO" Width="130" Margin="5" Click="BtnLoadFoxColumn_Click" />
+                            <Button Name="BtnLoadFoxColumn" Content="Load Columns" ToolTip="Load Columns FOXPRO" Width="130" Margin="5" FontSize="12" Click="BtnLoadFoxColumn_Click" />
+                            <Button Name="BtnDiferenceFox" Content="Column ≠" ToolTip="COLUMN DIFFERENCES FOX TO SQL" Width="130" Margin="5" FontSize="12" Click="BtnDiferenceFox_Click"/>
                         </StackPanel>
                     </Grid>
                 </Grid>
@@ -167,8 +168,9 @@
                        
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                            <Button Name="BtnLoadSqlColumn" Content="Load Columns" ToolTip="Load Columns SQL SERVER" Width="130" Margin="5" Click="BtnLoadSqlColumn_Click" />
-                            <Button Name="BtnTruncateTable" Content="Truncate Table" ToolTip="TRUNCATE TABLE SELECTED" Width="130" Margin="5" Click="BtnTruncateTable_Click" />
+                            <Button Name="BtnLoadSqlColumn" Content="Load Columns" ToolTip="Load Columns SQL SERVER" Width="130" Margin="5" FontSize="12" Click="BtnLoadSqlColumn_Click" />
+                            <Button Name="BtnTruncateTable" Content="Truncate Table" ToolTip="TRUNCATE TABLE SELECTED" Width="130" Margin="5" FontSize="12" Click="BtnTruncateTable_Click" />
+                            <Button Name="BtnDiferenceSQL" Content="Column ≠" ToolTip="COLUMN DIFFERENCES SQL TO FOX" Width="130" Margin="5" FontSize="12" Click="BtnDiferenceSQL_Click"/>
                         </StackPanel>
 
                     </Grid>

@@ -299,6 +299,117 @@ namespace FoxToSql
             }
         }
 
+
+
+        public DataTable GetColumnsDiferent(DataTable dt1, DataTable dt2, bool isFoxSql)
+        {
+
+            DataTable dt = new DataTable();
+            dt.Columns.Add("COLUMN_NAME");
+
+            DataTable dfor = isFoxSql ? dt1 : dt2;
+
+            foreach (DataRow item in dfor.Rows)
+            {
+                string column = item["COLUMN_NAME"].ToString().Trim();
+                DataRow[] row = isFoxSql ? dt2.Select("COLUMN_NAME='" + column + "'") : dt1.Select("COLUMN_NAME='" + column + "'");
+                if (row.Length <= 0) dt.Rows.Add(column);
+            }
+
+            return dt;
+        }
+
+        private void BtnDiferenceSQL_Click(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                if (CbTableSql.SelectedIndex > 0)
+                {
+
+                    #region validation
+
+                    if (dt_colfox.Rows.Count <= 0)
+                    {
+                        MessageBox.Show("Load columns of table FOX PRO", "alert", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
+
+                    if (dt_colsql.Rows.Count <= 0)
+                    {
+                        MessageBox.Show("Load columns of table SQL SERVER", "alert", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
+                    #endregion
+
+                    DataTable dt = GetColumnsDiferent(dt_colfox, dt_colsql, false);
+                    ColumnDifferences ww = new ColumnDifferences();
+                    ww.ShowInTaskbar = false;
+                    ww.dtdiference = dt;
+                    ww.Txtitle.Text = "DIFFERENT SQL COLUMNS";
+                    ww.Owner = Application.Current.MainWindow;
+                    ww.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    ww.ShowDialog();
+
+                }
+                else
+                {
+                    MessageBox.Show("select a sql server board", "alert", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("error open comman", "alert", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void BtnDiferenceFox_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (CbTableFox.SelectedIndex > 0)
+                {
+
+                    #region validation
+
+                    if (dt_colfox.Rows.Count <= 0)
+                    {
+                        MessageBox.Show("Load columns of table FOX PRO", "alert", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
+
+                    if (dt_colsql.Rows.Count <= 0)
+                    {
+                        MessageBox.Show("Load columns of table SQL SERVER", "alert", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                        return;
+                    }
+                    #endregion
+
+                    DataTable dt = GetColumnsDiferent(dt_colfox, dt_colsql, true);
+                    ColumnDifferences ww = new ColumnDifferences();
+                    ww.ShowInTaskbar = false;
+                    ww.dtdiference = dt;
+                    ww.Txtitle.Text = "DIFFERENT FOX COLUMNS";
+                    ww.Owner = Application.Current.MainWindow;
+                    ww.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                    ww.ShowDialog();
+
+                }
+                else
+                {
+                    MessageBox.Show("select a fox pro board", "alert", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                }
+
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("error open comman", "alert", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+
         public DataTable getLinq(DataTable dt1, DataTable dt2)
         {
 
@@ -747,6 +858,10 @@ namespace FoxToSql
                 MessageBox.Show("error open comman", "alert", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+
+
+
 
 
     }
