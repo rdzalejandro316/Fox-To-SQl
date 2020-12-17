@@ -43,24 +43,44 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition/>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
-            
+
             <Grid Background="#373727">
                 <TextBlock Name="Txtitle" x:FieldModifier="public" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Grid>
-            
+
 
             <DataGrid Grid.Row="1" Name="GridColumnsDiference" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
                 <DataGrid.Columns>
+                    
+                    <DataGridTemplateColumn MinWidth="25" x:Name="ColumnCheck">
+                        <DataGridTemplateColumn.Header>
+                            <CheckBox Name="CheckAll" Content="CHECK" Unchecked="CheckAll_Unchecked" Checked="CheckAll_Checked"/>
+                        </DataGridTemplateColumn.Header>
+
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding CHECK, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
                     <DataGridTextColumn Width="200" Header="COLUMN" Binding="{Binding COLUMN_NAME}" IsReadOnly="True"/>
+                    <DataGridTextColumn Width="100" x:Name="TypeColumn" Header="TYPE" Binding="{Binding TYPE}" IsReadOnly="True"/>
                 </DataGrid.Columns>
             </DataGrid>
 
-            <StackPanel Grid.Row="2" Style="{StaticResource PanelTot}">
-                <TextBlock Text="Total: " Style="{StaticResource TxTitTot}"/>
-                <TextBlock Name="TxTotal" Text="0" Style="{StaticResource TxValTot}"/>
-            </StackPanel>
+            <Grid Grid.Row="2" Background="WhiteSmoke">
+                <StackPanel Style="{StaticResource PanelTot}" HorizontalAlignment="Left" >
+                    <TextBlock Text="Total: " Style="{StaticResource TxTitTot}"/>
+                    <TextBlock Name="TxTotal" Text="0" Style="{StaticResource TxValTot}"/>
+                </StackPanel>
+
+                <Button Name="BtnAddColumn" IsEnabled="False" Content="Add Column" ToolTip="Add column to table" HorizontalAlignment="Right" Width="100" Margin="5" FontSize="12" Click="BtnAddColumn_Click"/>
+            </Grid>
         </Grid>
 
 

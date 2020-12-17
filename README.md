@@ -12,6 +12,6 @@ these are some of the features of the software.
   
 ### Requirements
 
-Dillinger uses a number of open source projects to work properly:
+this project requires the following requirements:
 
 * [VFP OLEDB](https://www.microsoft.com/en-us/download/details.aspx?id=14839) - driver for fox pro 

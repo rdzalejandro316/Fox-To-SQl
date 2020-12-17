@@ -32,6 +32,8 @@ namespace FoxToSql
         public Start()
         {
             InitializeComponent();
+            TxPathFoxPro.Text = @"C:\Users\aleja\Desktop\Business\SDA\Viejito\Marzo240420\Marzo240420\empresas\EMP010\CO.SIA";
+            TxPathSqlServer.Text = @"Data Source=192.168.175.13;Initial Catalog=SiaSDA_Emp010 ;Persist Security Info=True;User ID=sa;Password=W654321*;Connect Timeout=5;Encrypt=False;Column Encryption Setting=Enabled";
         }
 
         private void BtnConnFox_Click(object sender, RoutedEventArgs e)
@@ -131,6 +133,7 @@ namespace FoxToSql
                     string root = TxPathFoxPro.Text;
                     string strCon = @"Provider=VFPOLEDB.1;Data Source=" + root + ";Collating Sequence=MACHINE;Connection Timeout=20;Exclusive=NO;DELETED=True;EXACT=False";
                     DataTable tableInfo;
+
                     using (OleDbConnection con = new OleDbConnection(strCon))
                     {
                         con.Open();
@@ -140,12 +143,9 @@ namespace FoxToSql
 
                     DataView dv = tableInfo.DefaultView;
                     dv.Sort = "TABLE_NAME desc";
-                    //GridFoxPro.ItemsSource = dv;
                     CbTableFox.ItemsSource = dv;
                     CbTableFox.DisplayMemberPath = "TABLE_NAME";
                     CbTableFox.SelectedValuePath = "TABLE_NAME";
-
-
                 }
             }
             catch (Exception)
@@ -305,15 +305,35 @@ namespace FoxToSql
         {
 
             DataTable dt = new DataTable();
+            dt.Columns.Add("CHECK");
             dt.Columns.Add("COLUMN_NAME");
+            if (isFoxSql)
+            {
+                dt.Columns.Add("TYPE", typeof(OleDbType));
+                dt.Columns.Add("CHARACTER_MAXIMUM_LENGTH");
+                dt.Columns.Add("NUMERIC_PRECISION");
+                dt.Columns.Add("NUMERIC_SCALE");
+            }
+
 
             DataTable dfor = isFoxSql ? dt1 : dt2;
 
             foreach (DataRow item in dfor.Rows)
             {
                 string column = item["COLUMN_NAME"].ToString().Trim();
+
                 DataRow[] row = isFoxSql ? dt2.Select("COLUMN_NAME='" + column + "'") : dt1.Select("COLUMN_NAME='" + column + "'");
-                if (row.Length <= 0) dt.Rows.Add(column);
+                if (row.Length <= 0)
+                {
+                    if (isFoxSql)
+                    {
+                        string c_length = item["CHARACTER_MAXIMUM_LENGTH"].ToString();
+                        string n_precision = item["NUMERIC_PRECISION"].ToString();
+                        string n_scale = item["NUMERIC_SCALE"].ToString();
+                        dt.Rows.Add(false, column, (OleDbType)item["DATA_TYPE"], c_length, n_precision, n_scale);
+                    }
+                    else dt.Rows.Add(false, column);
+                }
             }
 
             return dt;
@@ -347,6 +367,7 @@ namespace FoxToSql
                     ww.ShowInTaskbar = false;
                     ww.dtdiference = dt;
                     ww.Txtitle.Text = "DIFFERENT SQL COLUMNS";
+                    ww.BtnAlterEnable = false;
                     ww.Owner = Application.Current.MainWindow;
                     ww.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     ww.ShowDialog();
@@ -391,6 +412,8 @@ namespace FoxToSql
                     ww.ShowInTaskbar = false;
                     ww.dtdiference = dt;
                     ww.Txtitle.Text = "DIFFERENT FOX COLUMNS";
+                    ww.BtnAlterEnable = true;
+                    ww.Table = CbTableSql.SelectedValue.ToString().Trim();
                     ww.Owner = Application.Current.MainWindow;
                     ww.WindowStartupLocation = WindowStartupLocation.CenterScreen;
                     ww.ShowDialog();
@@ -607,6 +630,18 @@ namespace FoxToSql
 
                 if (MessageBox.Show("wants to pass the information ?", "Alerta", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
                 {
+                    string where = "";
+
+                    if (Convert.ToBoolean(BtnWhere.IsChecked))
+                    {
+                        AddWhere ww = new AddWhere();
+                        ww.ShowInTaskbar = false;
+                        ww.table = CbTableFox.SelectedValue.ToString();
+                        ww.Owner = Application.Current.MainWindow;
+                        ww.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+                        ww.ShowDialog();
+                        where = ww.where;
+                    }
 
                     string table_fox = CbTableFox.SelectedValue.ToString();
                     string table_sql = CbTableSql.SelectedValue.ToString();
@@ -661,7 +696,7 @@ namespace FoxToSql
 
 
                     string cab_colm_parm = String.Join(",", list_col.Select(x => x.column_convert).ToArray());
-                    string query = "select  " + cab_colm_parm + " from " + table_fox + " ";
+                    string query = "select  " + cab_colm_parm + " from " + table_fox + " " + where;
 
                     string root = TxPathFoxPro.Text;
 
@@ -859,12 +894,20 @@ namespace FoxToSql
             }
         }
 
+        private void CheckAll_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (DataRow item in dt_compare.Rows) item["CHECK"] = false;
+        }
 
-
+        private void CheckAll_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (DataRow item in dt_compare.Rows) item["CHECK"] = true;
+        }
 
 
 
     }
+
 
     public class ListColumn
     {

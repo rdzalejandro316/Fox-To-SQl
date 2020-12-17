@@ -28,7 +28,7 @@
             <Style TargetType="StackPanel" x:Key="PanelTot">
                 <Setter Property="Background" Value="WhiteSmoke"/>
                 <Setter Property="Orientation" Value="Horizontal"/>
-            </Style> 
+            </Style>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
@@ -164,8 +164,8 @@
                                 <TextBlock Text="Total: " Style="{StaticResource TxTitTot}"/>
                                 <TextBlock Name="TxTotalSql" Text="0" Style="{StaticResource TxValTot}"/>
                             </StackPanel>
-                        </Grid> 
-                       
+                        </Grid>
+
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <Button Name="BtnLoadSqlColumn" Content="Load Columns" ToolTip="Load Columns SQL SERVER" Width="130" Margin="5" FontSize="12" Click="BtnLoadSqlColumn_Click" />
@@ -182,7 +182,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="300"/>
                     </Grid.ColumnDefinitions>
 
                     <Grid>
@@ -190,10 +190,23 @@
                             <RowDefinition/>
                             <RowDefinition Height="20"/>
                         </Grid.RowDefinitions>
-                        
+
                         <DataGrid Name="GridCompare" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
                             <DataGrid.Columns>
-                                <DataGridCheckBoxColumn Width="60" Header="CHECK" Binding="{Binding CHECK}" IsReadOnly="False"/>
+                                <DataGridTemplateColumn MinWidth="25" x:Name="ColumnCheck">
+                                    <DataGridTemplateColumn.Header>
+                                        <CheckBox Name="CheckAll" Content="CHECK" Unchecked="CheckAll_Unchecked" Checked="CheckAll_Checked"/>
+                                    </DataGridTemplateColumn.Header>
+
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <CheckBox VerticalAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding CHECK, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
                                 <DataGridTextColumn Width="90" Header="COLUMN FOX" Binding="{Binding COLUMN_NAME}" IsReadOnly="True"/>
                                 <DataGridTextColumn Width="90" Header="TYPE FOX" Binding="{Binding TYPE_FOX}" IsReadOnly="True"/>
                                 <DataGridTextColumn Width="90" Header="C LENGTH FOX" Binding="{Binding CHARACTER_MAXIMUM_LENGTH}" IsReadOnly="True"/>
@@ -214,14 +227,21 @@
                             <TextBlock Name="TxTotalCompare" Text="0" Style="{StaticResource TxValTot}"/>
                         </StackPanel>
                     </Grid>
-                   
 
-                    <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center">
-                        <Button Name="BtnOPenCommand"  Content="Open Command" FontSize="12" Margin="5,2,5,2" ToolTip="Open Command SQL SERVER"  Click="BtnOPenCommand_Click" />
-                        <Button Name="BtnAlterCol"  Content="Alter Column" FontSize="12" Margin="5,2,5,2" ToolTip="Alter column Fox to SQL server"  Click="BtnAlterCol_Click" />
-                        <Button Name="BtnCompare" Content="Compare Tables" FontSize="12" Margin="5,2,5,2" ToolTip="Compare Table FOX PRO and SQL SERVER"  Click="BtnCompare_Click" />
-                        <Button Name="BtnPassData" Content="Pass Data" FontSize="12" Margin="5,2,5,2" ToolTip="pass the data of the columns you select in the comparison table" Click="BtnPassData_Click" />
+
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <WrapPanel  Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Button Name="BtnOPenCommand"  Content="Open Command" FontSize="12" Margin="5,2,5,2" ToolTip="Open Command SQL SERVER"  Click="BtnOPenCommand_Click" Width="120"/>
+                            <Button Name="BtnAlterCol"  Content="Alter Column" FontSize="12" Margin="5,2,5,2" ToolTip="Alter column Fox to SQL server"  Click="BtnAlterCol_Click" Width="120"/>
+                            <Button Name="BtnCompare" Content="Compare Tables" FontSize="12" Margin="5,2,5,2" ToolTip="Compare Table FOX PRO and SQL SERVER"  Click="BtnCompare_Click" Width="120"/>
+                            <Button Name="BtnPassData" Content="Pass Data" FontSize="12" Margin="5,2,5,2" ToolTip="pass the data of the columns you select in the comparison table" Click="BtnPassData_Click" Width="120"/>
+                        </WrapPanel>
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center"  VerticalAlignment="Center" Margin="0,5,0,0">
+                            <Label Content="Where"/>
+                            <ToggleButton Name="BtnWhere" FontSize="12" Margin="5,2,5,2" ToolTip="add a record selection filter"/>
+                        </StackPanel>
                     </StackPanel>
+                    
                 </Grid>
             </GroupBox>
         </Grid>

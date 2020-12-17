@@ -92,3 +92,30 @@ C:\Users\aleja\Desktop\f\obj\Debug\FoxToSql.exe
 C:\Users\aleja\Desktop\f\obj\Debug\FoxToSql.pdb
 C:\Users\aleja\Desktop\F\obj\Debug\ColumnDifferences.g.cs
 C:\Users\aleja\Desktop\F\obj\Debug\ColumnDifferences.baml
+C:\Users\aleja\Desktop\fox to sql\bin\Debug\FoxToSql.exe
+C:\Users\aleja\Desktop\fox to sql\bin\Debug\FoxToSql.pdb
+C:\Users\aleja\Desktop\fox to sql\bin\Debug\MaterialDesignColors.dll
+C:\Users\aleja\Desktop\fox to sql\bin\Debug\MaterialDesignThemes.Wpf.dll
+C:\Users\aleja\Desktop\fox to sql\bin\Debug\FoxToSql.exe.config
+C:\Users\aleja\Desktop\fox to sql\bin\Debug\MaterialDesignColors.pdb
+C:\Users\aleja\Desktop\fox to sql\bin\Debug\MaterialDesignThemes.Wpf.pdb
+C:\Users\aleja\Desktop\fox to sql\bin\Debug\MaterialDesignThemes.Wpf.xml
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\ColumnDifferences.g.cs
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\Command.g.cs
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\Start.g.cs
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\App.g.cs
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\FoxToSql_MarkupCompile.cache
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\FoxToSql_MarkupCompile.lref
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\ColumnDifferences.baml
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\Command.baml
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\Start.baml
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\FoxToSql.g.resources
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\FoxToSql.Properties.Resources.resources
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\FoxToSql.csproj.GenerateResource.cache
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\FoxToSql.csproj.CoreCompileInputs.cache
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\FoxToSql.csproj.CopyComplete
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\FoxToSql.exe
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\FoxToSql.pdb
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\FoxToSql.csprojAssemblyReference.cache
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\AddWhere.g.cs
+C:\Users\aleja\Desktop\fox to sql\obj\Debug\AddWhere.baml
