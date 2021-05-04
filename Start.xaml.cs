@@ -82,6 +82,8 @@ namespace FoxToSql
             {
                 bool flag = false;
                 string strCon = @"Provider=VFPOLEDB.1;Data Source=" + root + ";Collating Sequence=MACHINE;Connection Timeout=20;Exclusive=NO;DELETED=True;EXACT=False";
+                
+
                 OleDbConnection con = new OleDbConnection(strCon);
                 con.Open();
                 if (con.State == ConnectionState.Open) flag = true;
@@ -737,7 +739,10 @@ namespace FoxToSql
                     GridMain.IsEnabled = true;
                     BusyIndicator.IsIndeterminate = false;
                     TxLoad.Visibility = Visibility.Hidden;
+
+                    CheckAll.IsChecked = false;
                 }
+
 
 
             }
@@ -841,6 +846,10 @@ namespace FoxToSql
                                 break;
                             case OleDbType.DBDate:
                                 columnType = "DATETIME";
+                                value = "";
+                                break;
+                            case OleDbType.Boolean:
+                                columnType = "BIT";
                                 value = "";
                                 break;
                             case OleDbType.Decimal:
